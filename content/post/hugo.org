@@ -1,0 +1,77 @@
+---
+title: "Hugoデビュー"
+date: 2021-04-19T00:06:16+09:00
+tags: ["hugo"]
+draft: true
+---
+
+* はじめに
+
+  hugoデビューすることにした。
+  emacsから投稿できるブログサービスを考えていたら、hugoがよさそうだと思ったから。
+  org-modeが使えるのがなによりうれしい。
+
+* hugoのinstall
+以下を参考にhugoをinstall
+https://gohugo.io/getting-started/quick-start/
+
+#+BEGIN_SRC shell
+  brew install hugo
+#+END_SRC
+
+* サイトをつくる
+  
+#+BEGIN_SRC shell
+  hugo new site journal
+  cd journal
+  git init
+#+END_SRC
+
+
+テーマにevenを利用する
+#+BEGIN_SRC shell
+  git submodule add https://github.com/olOwOlo/hugo-theme-even themes/even
+#+END_SRC
+
+
+* 投稿を作成する
+
+  公式チュートリアルでは、 ~posts~ ディレクトリを指定しているが、単数形の ~post~ を採用する。
+  でないとHome画面に投稿が表示されない。
+#+BEGIN_SRC sh
+  hugo new post/my-first-post.md
+#+END_SRC
+
+* プレビュー
+
+#+BEGIN_SRC shell
+  hugo server -wD
+#+END_SRC
+
+これを実行すると次のように出力される。
+localhost:1313でアクセスできるようになる。
+#+BEGIN_SRC
+Start building sites …
+
+                   | EN
+-------------------+-----
+  Pages            |  8
+  Paginator pages  |  0
+  Non-page files   |  0
+  Static files     | 38
+  Processed images |  0
+  Aliases          |  1
+  Sitemaps         |  1
+  Cleaned          |  0
+
+Built in 44 ms
+Watching for changes in /Users/karuta/mydir/journal/{archetypes,content,data,layouts,static,themes}
+Watching for config changes in /journal/config.toml
+Environment: "development"
+Serving pages from memory
+Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
+Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
+Press Ctrl+C to stop  
+#+END_SRC
+
+
