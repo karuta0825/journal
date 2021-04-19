@@ -1,0 +1,62 @@
+---
+title: "関数型について"
+date: 2021-04-19T09:56:13+09:00
+tags: ["FP", "js"]
+draft: true
+---
+
+* 4章 高階関数
+  
+~_.max~ では不十分。比較方法が ~<~ に固定されてしまうから。
+柔軟にするために ~finder~ 関数を定義する。
+
+** 引数に関数をとる関数
+
+#+BEGIN_SRC js
+  function repeat(times, VALUE) {
+      return _.map(_.range(times), function() { return VALUE; })
+  }
+#+END_SRC
+
+VALUEに値が入るのが弱点になる。値ではなく関数を与えてやることでもっと柔軟になる。
+
+#+BEGIN_SRC js
+  function repeatdly(times, fun) {    
+    return _.map(_.range(times), fun);
+  }
+#+END_SRC
+
+
+~repeat~ 関数の場合、出力するものがVALUEに固定されているのに対して、
+~repeatdly~ では第二引数の関数次第で任意の出力が可能になる。
+
+次に繰り返し回数を指定する ~times~ も値なので、これも柔軟にするために関数にする。
+
+#+BEGIN_SRC js :results scalar
+  function iterateUtil(fun, check, init) {
+    var ret = [];
+    var result = fun(init);
+
+    while(check(result)) {
+      ret.push(result);
+      result = fun(result);
+    }
+    return ret
+   }
+
+  const r = iterateUtil(function(n) { return n + n; }, function(n) {return n <= 1024;}, 1);
+  console.log(r);
+  // [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+#+END_SRC
+
+#+RESULTS:
+# : [
+# :     2,    4,   8,  16,
+# :    32,   64, 128, 256,
+# :   512, 1024
+# : ]
+# : undefined
+
+再帰関数を使えばもっとうまくやれるような気がする。
+
+** 関数を返す関数
