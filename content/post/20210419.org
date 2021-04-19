@@ -1,6 +1,55 @@
 ---
 title: "20210419"
 date: 2021-04-19T10:57:30+09:00
+tags: ["kotlin"]
 draft: true
 ---
-* たいとる
+
+kotlinをさわるようになった。
+javaより記述量がすくないのがうれしいところだ。
+kotlinでクラスからインスタンスを作成する方法について整理しておく
+
+* kotlinのインスタンス作成について
+
+  以下のクラスを用意して、このインスタンス作成について整理する。
+   #+BEGIN_SRC kotlin
+     data class Person(
+         val name: String = "Man",
+         val age: Int = 0
+      )   
+   #+END_SRC  
+
+   #+RESULTS:
+   : res5: kotlin.String = >>> 
+ 
+** 引数の位置をあわせて作成する
+   
+
+   #+BEGIN_SRC kotlin
+     val p = Person("Adam", 10)
+     println(p)
+     // => Person(name=Adam, age=10)
+   #+END_SRC
+
+   こちらのほうが一般的でわかりやすい。
+   しかし、第一引数はデフォルト引数を利用して、第二引数だけ指定したいという要望は叶えられない。
+
+#+RESULTS:
+: Person(name=Adam, age=10)
+: res7: kotlin.String = >>>
+
+** 名前を指定して作成する
+
+   名前引数を利用すると、先のやりたかったことが実現できる。
+   
+#+BEGIN_SRC kotlin
+  var p = Person(age = 20)
+  println(p)
+  // Person(name=Man, age=20)
+#+END_SRC
+
+#+RESULTS:
+: Person(name=Man, age=20)
+: res11: kotlin.String = >>> 
+
+  
