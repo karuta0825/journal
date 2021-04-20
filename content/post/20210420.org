@@ -1,0 +1,53 @@
+---
+title: "emacsでterraform環境をつくる"
+date: 2021-04-20T09:34:46+09:00
+tags: ["terraform", "emacs"]
+draft: true
+---
+
+* lspをインストール
+
+  #+BEGIN_SRC sh
+  brew install hashicorp/tap/terraform-ls
+  #+END_SRC
+
+  #+BEGIN_SRC 
+  Updating Homebrew...
+  ==> Auto-updated Homebrew!
+  Updated 1 tap (homebrew/core).
+  ==> Updated Formulae
+  Updated 42 formulae.
+   
+  ==> Tapping hashicorp/tap
+  Cloning into '/usr/local/Homebrew/Library/Taps/hashicorp/homebrew-tap'...
+  remote: Enumerating objects: 144, done.
+  remote: Counting objects: 100% (144/144), done.
+  remote: Compressing objects: 100% (83/83), done.
+  remote: Total 956 (delta 69), reused 130 (delta 61), pack-reused 812
+  Receiving objects: 100% (956/956), 189.61 KiB | 1.81 MiB/s, done.
+  Resolving deltas: 100% (489/489), done.
+  Tapped 1 cask and 8 formulae (45 files, 280.5KB).
+  ==> Installing terraform-ls from hashicorp/tap
+  ==> Downloading https://releases.hashicorp.com/terraform-ls/0.15.0/terraform-ls_0.15.0_darwin_amd64.zip
+  ######################################################################## 100.0%
+  🍺  /usr/local/Cellar/terraform-ls/0.15.0: 3 files, 11.9MB, built in 5 seconds  
+  #+END_SRC
+
+    
+* emacsの設定
+
+  ~lsp-mode~ に設定を追加する。
+  
+  installさfれたpathが今回 ~/usr/local/Cellar/terraform-ls~ なのでそれをemacsの設定にかいていく
+  
+  #+BEGIN_SRC emacs-lisp
+    (use-package lsp-mode
+    :config
+    (lsp-register-client
+     (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/Cellar/terraform-ls/0.15.0/bin/terraform-ls" "serve"))
+                      :major-modes '(terraform-mode)
+                      :server-id 'terraform-ls))
+    :commands lsp)
+  #+END_SRC
+
+
