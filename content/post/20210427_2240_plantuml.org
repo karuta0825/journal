@@ -1,0 +1,154 @@
+---
+title: "planumlでER図をかく"
+date: 2021-04-27T22:40:38+09:00
+tags: ["plantuml", "ER", "DB"]
+draft: true
+---
+
+* plantumlをつかってER図をかこう。
+
+  
+** テーブル同士の関係を表す方法
+
+   - カーディナリティについて
+     
+     0の意味を持たせるには ~o~ がつき、1という意味を持たせるには ~|~ という記号がつく。
+     それに多関係を保つ場合は、 ~{~ という記号が合わさる
+     - なにもなし
+       ~--~
+     - 0以上
+       ~-o{~
+     - 0または1
+       ~-o|~
+     - 1つだけ
+       ~-||~
+     - 1以上
+       ~-|{~
+
+     #+BEGIN_SRC plantuml :file ../../static/images/cadinalirty.png
+       one -- another
+       one --o{ zero_more
+       one --o| zero_or_one
+       one --|| fix_one
+       one --|{ one_more
+     #+END_SRC
+
+     #+RESULTS:
+     [[file:../../static/images/cadinalirty.png]]
+  
+   - 補足説明をつける
+     関係を記述したあと ~:~ で区切って説明を追加できる
+     
+     #+BEGIN_SRC plantuml :file ../../static/images/cadinalirty_with_memo.png :cmdline -charset UTF-8
+       one -- another : なにもなし
+       one --o{ zero_more : 0以上
+       one --o| zero_or_one : 0または1
+       one --|| fix_one : 1つのみ
+       one --|{ one_more : 1以上
+     #+END_SRC
+
+     #+RESULTS:
+     [[file:../../static/images/cadinalirty_with_memo.png]]
+     
+ 
+** テーブル同士の関係を上下左右のどこの描画するか？
+
+   テーブル同士の関係を表す記号の間に ~u, d, l, r~ のいずれかつけると上下左右のどこに配置するかを選べる
+
+   - u: up
+   - d: down
+   - l: left
+   - r: right
+
+     #+BEGIN_SRC plantuml :file ../../static/images/cadinalirty_with_memo_position.png :cmdline -charset UTF-8
+       one -u- another : なにもなし
+       one -r-o{ zero_more : 0以上
+       one -d-o| zero_or_one : 0または1
+       one -l-|| fix_one : 1つのみ
+       one --|{ one_more : 1以上(デフォルトはdownが採用されてる)
+     #+END_SRC
+
+     #+RESULTS:
+     [[file:../../static/images/cadinalirty_with_memo_position.png]]
+
+   
+** テーブル構造の書き方
+
+   - 外部キーやユニークキーをどうやってつけるか。
+   - 外部キーがどのテーブルのどのカラムに対応しているのかは難しそ
+   - マスタやトランザクションテーブルなどの意味をどうやってつけるか
+   - 日本語のためにはカッコを使ってもよいかもしれない
+   
+** 実践
+
+   - shippings
+     - id
+   - shipping_prints(出荷付属帳票)
+     - id
+     - shipping_id(FK)
+     - url
+   - shipping_print_instructions(印刷指示)
+     - id
+     - shipping_print_id(FK)
+     - print_device_id(FK)
+     - file_name
+   - shipping_print_histories(印刷履歴)
+     - shipping_print_id
+     - print_device_id
+     - file_name
+   - print_devices(プリンタ)
+     - id
+     - shop_id
+     - ip_address
+     - device_name
+
+       #+BEGIN_SRC plantuml :file print.png
+
+         entity  shippings {
+           + id [PK]
+         }
+
+         entity  shipping_prints {
+           + id [PK]
+           --
+           # shipping_id [FK]
+           url 
+         }
+
+         entity  shipping_print_instructions {
+           + id [PK]
+           --
+           # shpping_print_id [FK]
+           # print_device_id [FK]
+           file_name
+         }
+
+         entity print_devices <<M,MASTER_MARK_COLOR>> {
+           + id [PK]
+           --
+           shop_id [FK]
+           ip_address [UQ]
+           device_name 
+         }
+
+         entity shpping_print_histories {
+           + id [PK]
+           --
+           shpping_print_id
+           print_device_id
+           file_name
+         }
+
+         shippings ||-r-o{ shipping_prints
+         shipping_prints ||-r-o{ shipping_print_instructions
+         shipping_print_instructions }o--|| print_devices
+       #+END_SRC
+
+       これのほうがいい理由は、print_device_idに外部キーをはることができることだ。
+       履歴テーブルは外部キー制約がないので過去のdevice_idを使うことができるが、
+       履歴と一緒にすると今登録してあるデバイスを削除するには過去の印刷指示をすべて削除しないといけない。
+       ということでこっちのほうがわかりやすい。
+
+
+** 参考URL
+   http://java-study.blog.jp/archives/1069761205.html
