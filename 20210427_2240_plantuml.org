@@ -2,7 +2,7 @@
 #+HUGO_BASE_DIR: ~/mydir/journal/
 #+HUGO_SECTION: post
 #+hugo_tags: planuml ER DB
-#+link: files file+sys:Users/karuta/mydir/journal/static/
+#+OPTIONS: \n:t
 
 * plantumlをつかってER図をかこう。
 
@@ -11,7 +11,7 @@
 
    - カーディナリティについて
      
-     0の意味を持たせるには ~o~ がつき、1という意味を持たせるには ~|~ という記号がつく。
+     0の意味を持たせるには ~o~ がつき、1という意味を持たせるには ~|~ という記号がつく。  
      それに多関係を保つ場合は、 ~{~ という記号が合わさる
      - なにもなし
        ~--~
@@ -33,7 +33,7 @@
      #+END_SRC
 
      #+RESULTS:
-     [[file:images/cadinalirty.png]]
+     [[file:/images/cadinalirty.png]]
 
   
    - 補足説明をつける
@@ -48,7 +48,7 @@
      #+END_SRC
 
      #+RESULTS:
-     [[file:cadinalirty_with_memo.png]]
+     [[file:/images/cadinalirty_with_memo.png]]
      
  
 ** テーブル同士の関係を上下左右のどこの描画するか？
@@ -69,7 +69,7 @@
      #+END_SRC
 
      #+RESULTS:
-     [[file:../../static/images/cadinalirty_with_memo_position.png]]
+     [[file:/images/cadinalirty_with_memo_position.png]]
 
    
 ** テーブル構造の書き方
