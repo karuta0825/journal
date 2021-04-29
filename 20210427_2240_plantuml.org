@@ -33,7 +33,7 @@
      #+END_SRC
 
      #+RESULTS:
-     [[file:cadinalirty.png]]
+     [[file:images/cadinalirty.png]]
 
   
    - 補足説明をつける
