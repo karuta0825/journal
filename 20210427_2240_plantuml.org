@@ -48,7 +48,7 @@
      #+END_SRC
 
      #+RESULTS:
-     [[file:/images/cadinalirty_with_memo.png]]
+     [[file:cadinalirty_with_memo.png]]
      
  
 ** テーブル同士の関係を上下左右のどこの描画するか？
