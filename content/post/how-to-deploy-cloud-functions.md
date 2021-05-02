@@ -3,7 +3,9 @@ title = "Cloud Functionsつかってみる"
 author = ["karuta"]
 date = 2021-05-02T18:14:00+09:00
 publishDate = 2021-05-02T16:00:00+09:00
+tags = ["GCP"]
 draft = false
+summary = "deployとルーティングについて"
 +++
 
 ## GCPアカウントを変更する {#gcpアカウントを変更する}
