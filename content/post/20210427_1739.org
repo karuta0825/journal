@@ -1,0 +1,38 @@
+---
+title: "Kotlinで高階関数"
+date: 2021-04-27T17:39:18+09:00
+tags: ["kotlin"]
+draft: true
+---
+
+* 関数を返す関数を書くとき
+
+  ラムダ式でかえせばよい。
+
+   #+BEGIN_SRC kotlin
+     data class SlackMessage(
+         val channel: String = "karuta-test",
+         val username: String = "ryanbot",
+         val text: String = "default message"
+     )
+    
+    
+     fun makeSlackSender(channel: String = "devlog"): (String, String) -> SlackMessage {
+         return {
+             botName: String,  message: String -> SlackMessage(channel = channel, username = botName, text = message);
+         }
+     }
+    
+     val f = makeSlackSender()
+     println(f("a", "c"))
+     // -> SlackMessage(channel=devlog, username=a, text=c)
+   #+END_SRC
+
+  他にもつぎのようにかける。
+
+  #+BEGIN_SRC kotlin
+    val f: (Int, Int) -> Int  = {x: Int, y: Int -> x + y }
+    println(f(2, 3))
+  #+END_SRC
+
+
