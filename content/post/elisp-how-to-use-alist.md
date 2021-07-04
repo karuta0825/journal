@@ -2,12 +2,15 @@
 title = "elispの連想配列の操作方法を整理する"
 author = ["karuta"]
 publishDate = 2021-06-12T00:00:00+09:00
+tags = ["elisp"]
 draft = false
 +++
 
 ## 連想配列とはなにか？ {#連想配列とはなにか}
 
-コンスセルを要素とする配列のこと。コンスセルとは、 `(値1 . 値2)` のようにドットでペアをつくるデータ構造コンスセルの左側の値を取得する方法は、 `car` であり、右側を取得する方法は、 `cdr` となる。  
+コンスセルを要素とする配列のこと。  
+コンスセルとは、 `(値1 . 値2)` のようにドットでペアをつくるデータ構造  
+コンスセルの左側の値を取得する方法は、 `car` であり、右側を取得する方法は、 `cdr` となる。  
 
 この左側をkeyして右側をvalueとして利用したのが、emacs-lispの連想配列である。  
 
@@ -22,7 +25,7 @@ draft = false
     
     ```elisp
     (setq alist '((one . 1)))
-    (assq 'one alist) 
+    (assq 'one alist)
     ; => (one . 1)
     ```
 
@@ -32,7 +35,7 @@ draft = false
     
     ```elisp
     (setq alist '((one . 1)))
-    (rassq 1 alist) 
+    (rassq 1 alist)
     ; => (one . 1)
     ```
 
@@ -51,7 +54,7 @@ valueを変更する
 ```elisp
 (setq alist '((one . 1)))
 (setf (cdr (assoc 'one alist)) 11) ; => x
-alist 
+alist
 ; => ((one . 11))
 ```
 
